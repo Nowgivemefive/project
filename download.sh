@@ -1,11 +1,13 @@
 #!/bin/bash
 # download.sh
+# 爬取知乎某问题下的所有图片
+# 使用 ./download.SH https://www.zhihu.com/question/XXXXXX
 if [ ! $1 ]
 then
 	echo 'need question url'
 	exit 1
 fi
-
+# 获取问题num
 ques_num=`echo $1 | egrep -o '[0-9]+'`
 
 function gethtml()
@@ -16,7 +18,7 @@ gethtml $1 | egrep -o 'data-original="[^"]*' | egrep -o 'https://[^ ]*'| sort |u
 
 api="https://www.zhihu.com/api/v4/questions/${ques_num}/answers?sort_by=default&include=data%5B%2A%5D.is_normal%2Cis_collapsed%2Cannotation_action%2Cannotation_detail%2Ccollapse_reason%2Cis_sticky%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccan_comment%2Ccontent%2Ceditable_content%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Cmark_infos%2Ccreated_time%2Cupdated_time%2Creview_info%2Crelationship.is_authorized%2Cis_author%2Cvoting%2Cis_thanked%2Cis_nothelp%2Cupvoted_followees%3Bdata%5B%2A%5D.author.follower_count%2Cbadge%5B%3F%28type%3Dbest_answerer%29%5D.topics&limit=20&offset="
 
-
+# 根据offset获取图片链接到$$.log
 offset=3
 total=`gethtml $api$offset | egrep -o '"totals": [0-9][^,]*' | egrep -o '[0-9]+'`
 total=`expr $total + 20`
@@ -29,7 +31,7 @@ done
 wait
 echo 'get img url complete'
 
-max_th=50 #指定最大线程数
+max_th=50 #指定最大线程数，防止过多进程过分消耗资源
 # 线程控制
 function getimg()
 {
