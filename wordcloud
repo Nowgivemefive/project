@@ -1,0 +1,62 @@
+# filename bocai
+import urllib2
+import json
+from bs4 import BeautifulSoup
+
+f = open('bocai.txt','a')
+
+url = 'https://www.zhihu.com/people/bo-cai-28-7/answers'
+api = 'https://www.zhihu.com/api/v4/members/bo-cai-28-7/answers?include=data%5B*%5D.is_normal%2Cadmin_closed_comment%2Creward_info%2Cis_collapsed%2Cannotation_action%2Cannotation_detail%2Ccollapse_reason%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccan_comment%2Ccontent%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Cmark_infos%2Ccreated_time%2Cupdated_time%2Creview_info%2Cquestion%2Cexcerpt%2Crelationship.is_authorized%2Cvoting%2Cis_author%2Cis_thanked%2Cis_nothelp%2Cupvoted_followees%3Bdata%5B*%5D.author.badge%5B%3F(type%3Dbest_answerer)%5D.topics&limit=20&offset='
+#getTotal
+req = urllib2.Request(api);
+req.add_header('User-Agent','Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36')
+req.add_header('authorization','oauth c3cef7c66a1843f8b3a9e6a1e3160e20')
+response = urllib2.urlopen(req)
+content = response.read()
+content = json.loads(content)
+totals = content['paging']['totals']
+
+        
+# 构造请求头
+def get_text(api):
+    req = urllib2.Request(api);
+    req.add_header('User-Agent','Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36')
+    req.add_header('authorization','oauth c3cef7c66a1843f8b3a9e6a1e3160e20')
+    response = urllib2.urlopen(req)
+    content = response.read()
+    content = json.loads(content)
+    for line in content['data']:
+        soup = BeautifulSoup(line['content'])
+        print soup.get_text()
+        f.write(soup.get_text().encode('utf-8'))
+        f.write('\n')
+
+offset = 0
+while True:
+    api = 'https://www.zhihu.com/api/v4/members/bo-cai-28-7/answers?include=data%5B*%5D.is_normal%2Cadmin_closed_comment%2Creward_info%2Cis_collapsed%2Cannotation_action%2Cannotation_detail%2Ccollapse_reason%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccan_comment%2Ccontent%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Cmark_infos%2Ccreated_time%2Cupdated_time%2Creview_info%2Cquestion%2Cexcerpt%2Crelationship.is_authorized%2Cvoting%2Cis_author%2Cis_thanked%2Cis_nothelp%2Cupvoted_followees%3Bdata%5B*%5D.author.badge%5B%3F(type%3Dbest_answerer)%5D.topics&limit=20&offset='
+    api = '%s%d' %(api,offset)
+    #print api
+    get_text(api)
+    offset = offset + 20
+    if (offset > totals ):
+        break
+
+        
+#get_text(api)
+        
+f.close()
+
+filename = 'bocai.txt'
+with open(filename) as file:
+    text = file.read()
+import jieba
+text = " ".join(jieba.cut(text))
+from wordcloud import WordCloud
+wordcloud = WordCloud(
+    font_path="simsun.ttf",
+    background_color='white'  # 设置背景颜色
+).generate(text)
+%pylab inline
+import matplotlib.pyplot as plt
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
