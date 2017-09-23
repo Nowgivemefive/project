@@ -22,7 +22,7 @@ img_path_list = list(set(img_path_list))
 for line in img_path_list:
     f.write(line)
     f.write("\n")
-
+    
 img_path_list = []
 
 # 将获取的url保存到img_path_list 列表
