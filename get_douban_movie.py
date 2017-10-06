@@ -3,14 +3,17 @@ import json
 import xlsxwriter
 import time
 
+#新建Excel文件和sheet(表格)
 workbook = xlsxwriter.Workbook(r'C:\Users\dell\Desktop\movie.xlsx')
 worksheet = workbook.add_worksheet(name='movie')
 
+#构造header
 header = {
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
     'Origin':'https://movie.douban.com'
 }
 
+#构造API请求url，返回列表
 def geturl():
     urls = []
     tags = ["热门", "最新", "豆瓣高分", "冷门佳片", "华语", "欧美", "韩国", "日本"]
@@ -22,7 +25,9 @@ def geturl():
         url = 'https://movie.douban.com/j/search_subjects?type=movie&'+arg+'&page_limit=50&page_start='
         urls.append(url)
     return urls
-rows = []
+
+
+rows = []#计数用
 for url in geturl():
     row = len(rows)
     print 'running'
