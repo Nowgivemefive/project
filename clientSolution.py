@@ -144,9 +144,8 @@ def add_remove_song(s, method, song_id, playlist_id):
     print("{0}".format(replyCommand.command))
         
 class ClientThread(threading.Thread):
-    # you need to override the constructor, but make sure to call the base constructor
     def __init__(self, songName):
-        threading.Thread.__init__(self)  # make sure you do this or it won't work...
+        threading.Thread.__init__(self)  
         self.songName = songName
         
     # this is what gets run when you call start()
