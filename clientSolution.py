@@ -162,7 +162,7 @@ class ClientThread(threading.Thread):
         '''
         #getSong(self.songName, s)
         '''
-        上传一首歌到music文件夹下，你要确保上传的这首歌在对应路径下是存在的，不然你上传空气？？？,上传的song名字是song_id.mp3
+        上传一首歌到music文件夹下，你要确保上传的这首歌在对应路径下是存在的
         '''
         #song_file_name = r"songF.mp3"
         #addSong(s, song_file_name)
