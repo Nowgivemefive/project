@@ -44,9 +44,8 @@ class Command:
 # This is my thread class.  It inherits from threading.Thread....
 
 class SocketThread(threading.Thread):
-    # you need to override the constructor, but make sure to call the base constructor
     def __init__(self, socketInstance, songList, playlists_list):
-        threading.Thread.__init__(self)   # make sure you do this or it won't work...
+        threading.Thread.__init__(self)
         self.mySocket = socketInstance
         self.songList = songList
         self.playlists_list = playlists_list
