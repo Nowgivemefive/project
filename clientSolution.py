@@ -37,6 +37,7 @@ def getSongList(s):
     replyCommand = pickle.loads(replyData)
 
     print("Song List is: ", replyCommand.payload)
+    
 '''
 上载歌曲
 '''
