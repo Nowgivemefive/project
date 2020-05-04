@@ -6,9 +6,6 @@
 数据所在的网页 http://weather.uwyo.edu/upperair/sounding.html
 这个程序仅下载中国地区站点的数据
 '''
-'''
-你可以把这个程序当做简单的爬虫练习
-'''
 # 导入需要的库
 import os
 import urllib
